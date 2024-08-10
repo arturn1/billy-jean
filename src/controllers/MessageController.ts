@@ -1,5 +1,5 @@
+import { MessageService } from '@/services/MessageService';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { MessageService } from '../app/services/MessageService';
 
 export const MessageController = {
   async sendMessage(req: NextApiRequest, res: NextApiResponse) {

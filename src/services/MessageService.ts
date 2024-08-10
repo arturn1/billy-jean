@@ -1,4 +1,4 @@
-import { MessageRepository } from '../../repositories/MessageRepository';
+import { MessageRepository } from "@/repositories/MessageRepository";
 
 export const MessageService = {
   sendMessage: (chatId: string, senderId: string, content: string) => {

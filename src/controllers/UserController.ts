@@ -1,5 +1,5 @@
+import { UserService } from '@/services/UserService';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { UserService } from '../app/services/UserService';
 
 export const UserController = {
   async create(req: NextApiRequest, res: NextApiResponse) {

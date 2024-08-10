@@ -1,5 +1,6 @@
-import { User } from '../models/User';
-import { UserRepository } from '../../repositories/UserRepository';
+import { User } from "@/models/User";
+import { UserRepository } from "@/repositories/UserRepository";
+
 
 export const UserService = {
   createUser: (username: string, email: string) => {
