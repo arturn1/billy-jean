@@ -1,5 +1,5 @@
+import { ChatService } from '@/services/ChatService';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ChatService } from '../app/services/ChatService';
 
 export const ChatController = {
   async createChat(req: NextApiRequest, res: NextApiResponse) {
