@@ -17,7 +17,7 @@ interface HomeProps {
   initialChats: Chat[];
 }
 
-export default function Home({ initialUsers, initialChats }: HomeProps) {
+function Home({ initialUsers, initialChats }: HomeProps) {
   const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
   const [chats, setChats] = useState<Chat[]>(initialChats);
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
@@ -105,3 +105,5 @@ export default function Home({ initialUsers, initialChats }: HomeProps) {
     </div>
   );
 }
+
+export default Home;
