@@ -4,11 +4,12 @@ export interface User {
   id: string;
   username: string;
   email: string;
-  contacts: string[]; // Array de IDs de usuários
-  chats: string[]; // Array de IDs de chats
+  contacts: string[];  // IDs de contatos
+  chats: string[];     // IDs de chats
   createdAt: Date;
   updatedAt: Date;
 }
+
 
 export const createUser = (username: string, email: string): User => ({
   id: uuidv4(),

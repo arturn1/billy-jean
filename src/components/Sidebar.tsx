@@ -46,10 +46,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, currentUserId, chats, 
     return otherParticipant?.username.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
+  // Função de logout
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
+    window.location.reload();
+  };
+
   return (
-    <div className={`resizable w-1/3 bg-gray-900 text-white md:block ${isOpen ? 'block' : 'hidden'} md:w-1/3 lg:w-1/4`}>
+    <div className={`w-1/3 bg-gray-900 text-white md:block ${isOpen ? 'block' : 'hidden'} md:w-1/3 lg:w-1/4 h-full`}>
       <div className="p-4 flex justify-between items-center bg-gray-800 border-b border-gray-700">
-        <span>Free Free</span>
+        <span>Freed Free</span>
       </div>
       <div className="p-4">
         <input
@@ -60,7 +66,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, currentUserId, chats, 
           onChange={(e) => setSearchTerm(e.target.value)}  // Atualiza o termo de busca
         />
       </div>
-      <div className="overflow-y-auto h-full">
+      <div className="overflow-y-auto">
         {filteredChats.map(chat => {
           const otherParticipantId = chat.participants.find(id => id !== currentUserId);
           const otherParticipant = users[otherParticipantId || ''];
@@ -90,7 +96,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, currentUserId, chats, 
           );
         })}
       </div>
-      <div className="w-2 bg-gray-600 cursor-col-resize" />
+      <div className="p-4 border-t border-gray-700">
+        <button
+          onClick={handleLogout}
+          className="w-full px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 };

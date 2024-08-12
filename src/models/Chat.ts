@@ -3,11 +3,17 @@ import { Message } from './Message';
 
 export interface Chat {
   id: string;
-  participants: string[]; // Array de IDs de usuários
-  messages: Message[];
+  participants: string[];
+  messages: {
+    id: string;
+    senderId: string;
+    content: string;
+    timestamp: Date;
+  }[];
   createdAt: Date;
   updatedAt: Date;
 }
+
 
 export const createChat = (participants: string[]): Chat => ({
   id: uuidv4(),
