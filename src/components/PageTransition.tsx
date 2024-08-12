@@ -1,24 +1,22 @@
 // components/PageTransition.tsx
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { ReactNode } from 'react';
-
-const variants = {
-  hidden: { opacity: 0, x: -200, y: 0 },
-  enter: { opacity: 1, x: 0, y: 0 },
-  exit: { opacity: 0, x: 0, y: -100 },
-};
+import { animationVariants, AnimationVariants } from '@/enums/AnimationVariants';
 
 interface PageTransitionProps {
   children: ReactNode;
+  variant: AnimationVariants;
 }
 
-const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
+const PageTransition: React.FC<PageTransitionProps> = ({ children, variant }) => {
+  const selectedVariant: Variants = animationVariants[variant];
+
   return (
     <motion.div
       initial="hidden"
       animate="enter"
       exit="exit"
-      variants={variants}
+      variants={selectedVariant}
       transition={{ type: 'linear' }}
       className="h-full"
     >
