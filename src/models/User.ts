@@ -8,6 +8,7 @@ export interface User {
   chats: string[];     // IDs de chats
   createdAt: Date;
   updatedAt: Date;
+  password?: string; 
 }
 
 

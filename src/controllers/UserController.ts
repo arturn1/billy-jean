@@ -18,6 +18,15 @@ export const UserController = {
     }
   },
 
+  async getAll(req: NextApiRequest, res: NextApiResponse) {
+    const users = UserService.getAll();
+    if (users) {
+      res.status(200).json(users);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  },
+
   async update(req: NextApiRequest, res: NextApiResponse) {
     const { id } = req.query;
     const data = req.body;

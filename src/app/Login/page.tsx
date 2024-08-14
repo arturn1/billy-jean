@@ -1,5 +1,6 @@
 'use client'
 
+import { fakeUsers } from '@/data/fakeDatabase';
 import React, { useState } from 'react';
 
 export default function Auth() {
@@ -25,7 +26,8 @@ export default function Auth() {
       }
     } else {
       // Login
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      //const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const users = fakeUsers;
       const user = users.find((user: any) => user.email === email && user.password === password);
       if (user) {
         localStorage.setItem('currentUser', JSON.stringify(user));
@@ -44,7 +46,7 @@ export default function Auth() {
         </h2>
         {error && <p className="text-red-500 text-center">{error}</p>}
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {isRegister && (
+          {/* {isRegister && (
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-white">
                 Nome
@@ -59,7 +61,7 @@ export default function Auth() {
                 className="w-full px-3 py-2 mt-1 text-gray-900 bg-gray-200 rounded-md focus:outline-none"
               />
             </div>
-          )}
+          )} */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-white">
               Email
@@ -91,28 +93,12 @@ export default function Auth() {
           <div>
             <button
               type="submit"
-              className="w-full px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none"
-            >
-              {isRegister ? 'Registrar' : 'Logar'}
+              className="w-full px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none">
+              Logar
             </button>
           </div>
         </form>
         <div className="text-sm text-center text-white">
-          {isRegister ? (
-            <p>
-              Já possui conta?{' '}
-              <button onClick={() => setIsRegister(false)} className="text-blue-500 hover:underline">
-                Logar
-              </button>
-            </p>
-          ) : (
-            <p>
-              Não possui conta?{' '}
-              <button onClick={() => setIsRegister(true)} className="text-blue-500 hover:underline">
-                Registrar
-              </button>
-            </p>
-          )}
         </div>
       </div>
     </div>

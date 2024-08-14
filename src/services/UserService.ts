@@ -18,4 +18,8 @@ export const UserService = {
   deleteUser: (id: string) => {
     return UserRepository.delete(id);
   },
+
+  getAll: () => {
+    return UserRepository.getAll();
+  },
 };
