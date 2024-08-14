@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import { fakeUsers } from '../../../data/fakeDatabase';
 import { logger } from '@/utils/logger';
+import { User } from '@/models/User';
 
 // Handler para o método GET (listar usuários ou obter um usuário específico)
 export async function GET(req: NextRequest) {
@@ -31,10 +32,14 @@ export async function POST(req: NextRequest) {
   const { username, email } = await req.json();
 
   if (username && email) {
-    const newUser = {
+    const newUser : User = {
       id: uuidv4(),
       username,
       email,
+      contacts: [],
+      chats: [],
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
     fakeUsers.push(newUser);
     return NextResponse.json(newUser, { status: 201 });

@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       participants,
       messages: [],
     };
-    fakeChats.push(newChat);
+    // fakeChats.push(newChat);
     return NextResponse.json(newChat, { status: 201 });
   } else {
     return NextResponse.json({ error: 'Invalid participants' }, { status: 400 });

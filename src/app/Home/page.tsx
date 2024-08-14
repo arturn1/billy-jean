@@ -12,12 +12,12 @@ import { User } from "@/models/User";
 import { useState, useEffect } from "react";
  
 
-interface HomeProps {
-  initialUsers: User[];
-  initialChats: Chat[];
-}
+// interface HomeInterface {
+//   initialUsers: User[];
+//   initialChats: Chat[];
+// }
 
-function Home({ initialUsers, initialChats }: HomeProps) {
+export default function Home({ initialUsers, initialChats }: any) {
   const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
   const [chats, setChats] = useState<Chat[]>(initialChats);
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
@@ -65,7 +65,7 @@ function Home({ initialUsers, initialChats }: HomeProps) {
   };
 
   const contactId = chats.find(chat => chat.id === selectedChatId)?.participants.find(id => id !== currentUser?.id);
-  const contactName = initialUsers.find(user => user.id === contactId)?.username;
+  const contactName = initialUsers.find((user: { id: string | undefined; }) => user.id === contactId)?.username;
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -105,5 +105,3 @@ function Home({ initialUsers, initialChats }: HomeProps) {
     </div>
   );
 }
-
-export default Home;

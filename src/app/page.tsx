@@ -34,6 +34,35 @@ export default function Page() {
     loadData();
   }, []); // A lista de dependências vazia garante que isso só será executado uma vez
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://jocil4350.c35.integrator.host/session/status/invest_wa_api', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'x-api-key': 'invest_wa_api'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        console.log(result);
+      } catch (err) {
+        console.log('Error fetching data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen w-screen bg-white">
