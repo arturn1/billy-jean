@@ -43,7 +43,7 @@ export const QrCodeService = {
         
       }
   
-      return respQrCode;
+      return QrCodeData;
     } catch (error) {
       console.error('Failed to fetch session:', error);
       throw error;
