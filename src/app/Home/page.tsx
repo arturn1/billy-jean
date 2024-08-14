@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import { ChatHeader } from "@/components/ChatHeader";
 import { MessageInput } from "@/components/MessageInput";
 import { MessageList } from "@/components/MessageList";
@@ -9,22 +10,20 @@ import { getFakeMessages, addFakeMessage } from "@/data/fakeDatabase";
 import { Chat } from "@/models/Chat";
 import { Message as MessageModel } from "@/models/Message";
 import { User } from "@/models/User";
-import { useState, useEffect } from "react";
- 
-
-// interface HomeInterface {
-//   initialUsers: User[];
-//   initialChats: Chat[];
-// }
 
 export default function Home({ initialUsers, initialChats }: any) {
-  const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-  const [chats, setChats] = useState<Chat[]>(initialChats);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [chats, setChats] = useState<Chat[]>(initialChats || []);
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
   const [messages, setMessages] = useState<MessageModel[]>([]);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUser = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('currentUser') || 'null') : null;
+    setCurrentUser(storedUser);
+  }, []);
 
   useEffect(() => {
     if (selectedChatId) {
@@ -43,7 +42,7 @@ export default function Home({ initialUsers, initialChats }: any) {
       setLoading(false);
     }
   };
-  
+
   const handleSendMessage = async (content: string) => {
     if (!selectedChatId || !currentUser) return;
 
@@ -64,8 +63,11 @@ export default function Home({ initialUsers, initialChats }: any) {
     }
   };
 
-  const contactId = chats.find(chat => chat.id === selectedChatId)?.participants.find(id => id !== currentUser?.id);
-  const contactName = initialUsers.find((user: { id: string | undefined; }) => user.id === contactId)?.username;
+  const contactId = chats && selectedChatId ? 
+    chats.find(chat => chat.id === selectedChatId)?.participants.find(id => id !== currentUser?.id) : null;
+
+  const contactName = initialUsers && contactId ? 
+    initialUsers.find((user: { id: string | undefined; }) => user.id === contactId)?.username : null;
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -95,7 +97,7 @@ export default function Home({ initialUsers, initialChats }: any) {
             <>
               {contactName && <ChatHeader contactName={contactName} status="Online" />}
               <div className="flex-1 overflow-y-auto">
-                <MessageList messages={messages} users={initialUsers} currentUserId={currentUser?.id || ''} />
+                <MessageList messages={messages} users={initialUsers || []} currentUserId={currentUser?.id || ''} />
               </div>
               <MessageInput onSendMessage={handleSendMessage} />
             </>
