@@ -8,11 +8,11 @@ import { QrCodeService } from "../../services/QrCodeService";
  
 
 interface QrCodeProps {
-  initialUsers: User[];
+  initialUser: User;
 }
 const newSession: QrCodeModel = createQrCode("", false, "", "") as QrCodeModel;
 
-function PageQrCode({ initialUsers }: QrCodeProps) {
+function PageQrCode({ initialUser }: QrCodeProps) {
   const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
   const [currentQrCode, setQrCode] = useState<QrCodeModel>(newSession);
   const [error, setError] = useState<string | null>(null);

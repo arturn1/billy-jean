@@ -9,6 +9,7 @@ import Auth from "./Login/page";
 import { motion, AnimatePresence } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import { AnimationVariants } from '@/enums/AnimationVariants';
+import PageQrCode from "./QRCode/page";
 
 export default function Page() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -78,11 +79,14 @@ export default function Page() {
           <Auth />
         </PageTransition>
       ) :
+        currentUser.id == '1' ? 
+        <PageQrCode initialUser={currentUser}/> :
         (
           <PageTransition variant={AnimationVariants.FadeIn}>
             <Home initialUsers={initialUsers} initialChats={initialChats} />
           </PageTransition>
         )
+
       }
     </AnimatePresence>
   );

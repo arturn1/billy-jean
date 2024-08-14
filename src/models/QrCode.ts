@@ -15,7 +15,7 @@ export interface QrCode {
 
 export const createQrCode = (state: string, qrCode: boolean, qrCodeImagem: any, message: string): QrCode => ({
   id: uuidv4(),
-  apiKey: "invest_wa_api",
+  apiKey: "feitosadev",
   sessionId: "invest_wa_api",
   state: state,
   qrCode: qrCode,
