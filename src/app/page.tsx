@@ -80,7 +80,7 @@ export default function Page() {
         </PageTransition>
       ) :
         currentUser.id == '1' ? 
-        <PageQrCode initialUser={currentUser}/> :
+        <PageQrCode/> :
         (
           <PageTransition variant={AnimationVariants.FadeIn}>
             <Home initialUsers={initialUsers} initialChats={initialChats} />

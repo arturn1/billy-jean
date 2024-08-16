@@ -3,16 +3,12 @@
 import { useState, useEffect } from "react";
 import { Message as MessageModel } from "@/models/Message";
 import { QrCode as QrCodeModel, createQrCode } from "@/models/QrCode";
-import { User } from "@/models/User";
 import { QrCodeService } from "../../services/QrCodeService";
 
-interface QrCodeProps {
-  initialUser: User;
-}
 
 const newSession: QrCodeModel = createQrCode("", false, "", "") as QrCodeModel;
 
-function PageQrCode({ initialUser }: QrCodeProps) {
+function PageQrCode() {
   const [qrCodeGenerate, setQrCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
