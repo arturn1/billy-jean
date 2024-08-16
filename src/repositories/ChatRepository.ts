@@ -1,6 +1,7 @@
+import { fakeChats } from '@/data/fakeDatabase';
 import { Chat, createChat } from '../models/Chat';
 
-const chats: Chat[] = [];
+const chats: Chat[] = fakeChats;
 
 export const ChatRepository = {
   getAll: (): Chat[] => chats,

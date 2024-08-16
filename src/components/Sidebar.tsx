@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 
 interface Chat {
   id: string;
@@ -24,36 +24,40 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, currentUserId, chats, 
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    async function fetchUserDetails(userId: string) {
-      const response = await fetch(`/api/users?userId=${userId}`);
-      const userData = await response.json();
-      setUsers(prevUsers => ({ ...prevUsers, [userId]: userData }));
-    }
+    const fetchUserDetails = async (userId: string) => {
+      if (!users[userId]) {
+        const response = await fetch(`/api/users?userid=${userId}`);
+        const userData = await response.json();
+        setUsers(prevUsers => ({ ...prevUsers, [userId]: userData }));
+      }
+    };
 
-    chats.forEach(chat => {
-      chat.participants.forEach(participantId => {
-        if (participantId !== currentUserId && !users[participantId]) {
-          fetchUserDetails(participantId);
-        }
-      });
+    const participantsToFetch = chats
+      .flatMap(chat => chat.participants)
+      .filter(participantId => participantId !== currentUserId && !users[participantId]);
+
+    participantsToFetch.forEach(participantId => {
+      fetchUserDetails(participantId);
     });
   }, [chats, currentUserId, users]);
 
-  // Filtrar chats com base no termo de busca
-  const filteredChats = chats.filter(chat => {
-    const otherParticipantId = chat.participants.find(id => id !== currentUserId);
-    const otherParticipant = users[otherParticipantId || ''];
-    return otherParticipant?.username.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  // useMemo para memorizar os chats filtrados com base no termo de busca
+  const filteredChats = useMemo(() => {
+    return chats.filter(chat => {
+      const otherParticipantId = chat.participants.find(id => id !== currentUserId);
+      const otherParticipant = users[otherParticipantId || ''];
+      return otherParticipant?.username?.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+  }, [chats, currentUserId, searchTerm, users]);
 
-  // Função de logout
-  const handleLogout = () => {
+  // useCallback para memorizar a função de logout
+  const handleLogout = useCallback(() => {
     localStorage.removeItem('currentUser');
     window.location.reload();
-  };
+  }, []);
 
   return (
-    <div className={`w-1/3 bg-gray-900 text-white md:block ${isOpen ? 'block' : 'hidden'} md:w-1/3 lg:w-1/4 h-full`}>
+    <div className={`w-1/4 bg-gray-900 text-white md:block ${isOpen ? 'block' : 'hidden'} md:w-1/3 lg:w-1/4 h-full`}>
       <div className="p-4 flex justify-between items-center bg-gray-800 border-b border-gray-700">
         <span>Freed Free</span>
       </div>
@@ -66,7 +70,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, currentUserId, chats, 
           onChange={(e) => setSearchTerm(e.target.value)}  // Atualiza o termo de busca
         />
       </div>
-      <div className="overflow-y-auto">
+      <div className="">
         {filteredChats.map(chat => {
           const otherParticipantId = chat.participants.find(id => id !== currentUserId);
           const otherParticipant = users[otherParticipantId || ''];

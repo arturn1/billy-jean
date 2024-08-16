@@ -3,25 +3,25 @@ import { v4 as uuidv4 } from 'uuid';
 import { fakeUsers } from '../../../data/fakeDatabase';
 import { logger } from '@/utils/logger';
 import { User } from '@/models/User';
+import { UserController } from '@/controllers/UserController';
 
 // Handler para o método GET (listar usuários ou obter um usuário específico)
 export async function GET(req: NextRequest) {
-  logger(req);  // Log da requisição
-
+  
   const { searchParams } = new URL(req.url);
-  const userId = searchParams.get('userId');
+  const userId = searchParams.get('userid');
+  console.log(userId)
+  const users = await UserController.getAllUsers();
 
   if (userId) {
-    // Retorna um usuário específico
-    const user = fakeUsers.find(u => u.id === userId);
+    const user = users.find(u => u.id === userId);
     if (user) {
-      return NextResponse.json(user);
+      return NextResponse.json(user, { status: 200 });
     } else {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
   } else {
-    // Retorna todos os usuários se nenhum parâmetro for passado
-    return NextResponse.json(fakeUsers);
+    return NextResponse.json(users, { status: 200 });
   }
 }
 

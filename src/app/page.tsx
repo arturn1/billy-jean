@@ -23,7 +23,7 @@ export default function Page() {
         const storedUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
         if (storedUser) {
           setCurrentUser(storedUser);
-          const users = await getFakeUsers();
+          const users = await fetch('api/users').then((_) => _.json());
           const chats = await getFakeChats(storedUser.id);
           setInitialUsers(users);
           setInitialChats(chats);

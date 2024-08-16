@@ -1,9 +1,10 @@
+import { fakeUsers } from '@/data/fakeDatabase';
 import { User, createUser } from '../models/User';
 
-const users: User[] = [];
+const users: User[] = fakeUsers;
 
 export const UserRepository = {
-  getAll: (): User[] => users,
+  getAll: (): User[] => fakeUsers,
 
   getById: (id: string): User | undefined => users.find(user => user.id === id),
 

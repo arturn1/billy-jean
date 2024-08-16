@@ -19,7 +19,19 @@ export const UserService = {
     return UserRepository.delete(id);
   },
 
-  getAll: () => {
-    return UserRepository.getAll();
+  async getAllUsers() {
+    return await UserRepository.getAll();
   },
+
+  async getAllUsersExternal(): Promise<User[]> {
+    try {
+      const externalUsers = await fetch('https://api.exemplo.com/users');
+      const data: User[] = await externalUsers.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      throw new Error('Could not retrieve users');
+    }
+  }
+
 };
